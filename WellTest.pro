@@ -23,11 +23,13 @@ win32: LIBS += -lm
 
 # Input
 HEADERS += dataeditorwidget.h \
+           chartsetting1.h \
            fittingwidget.h \
            modelmanager.h \
            modelwidget1.h \
            modelwidget2.h \
            modelwidget3.h \
+           mousezoom.h \
            plottingwidget.h \
            mainwindow.h \
            monitorbtn.h \
@@ -54,11 +56,13 @@ FORMS += dataeditorwidget.ui \
          settingswidget.ui
 
 SOURCES += DataEditorWidget.cpp \
+           chartsetting1.cpp \
            fittingwidget.cpp \
            modelmanager.cpp \
            modelwidget1.cpp \
            modelwidget2.cpp \
            modelwidget3.cpp \
+           mousezoom.cpp \
            plottingwidget.cpp \
            plotwindow.cpp \
            main.cpp \

@@ -14,21 +14,9 @@
    <string>复合页岩油藏试井解释模型</string>
   </property>
   <property name="styleSheet">
-   <string>QWidget { color: black; }</string>
+   <string>QWidget { color: black; font-family: Arial; } QLineEdit { padding: 2px; }</string>
   </property>
   <layout class="QVBoxLayout" name="mainLayout">
-   <property name="leftMargin">
-    <number>10</number>
-   </property>
-   <property name="topMargin">
-    <number>10</number>
-   </property>
-   <property name="rightMargin">
-    <number>10</number>
-   </property>
-   <property name="bottomMargin">
-    <number>10</number>
-   </property>
    <item>
     <widget class="QSplitter" name="mainSplitter">
      <property name="orientation">
@@ -37,57 +25,104 @@
      <widget class="QWidget" name="leftPanel">
       <property name="minimumSize">
        <size>
-        <width>420</width>
+        <width>450</width>
         <height>0</height>
        </size>
       </property>
-      <property name="maximumSize">
-       <size>
-        <width>460</width>
-        <height>16777215</height>
-       </size>
-      </property>
       <layout class="QVBoxLayout" name="leftLayout">
+       <item>
+        <widget class="QGroupBox" name="basicParamGroup">
+         <property name="title">
+          <string>基础油藏与流体参数</string>
+         </property>
+         <layout class="QGridLayout" name="basicParamLayout">
+          <item row="0" column="0"><widget class="QLabel" name="l_phi"><property name="text"><string>&lt;html&gt;孔隙度 (φ)&lt;/html&gt;</string></property></widget></item>
+          <item row="0" column="1"><widget class="QLineEdit" name="phiEdit"><property name="toolTip"><string>输入数值，支持科学计数法。如需敏感性分析，请输入多个值用英文逗号隔开，例如: 0.05, 0.1</string></property></widget></item>
+          <item row="0" column="2"><widget class="QLabel" name="u_phi"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
+
+          <item row="1" column="0"><widget class="QLabel" name="l_h"><property name="text"><string>&lt;html&gt;有效厚度 (h)&lt;/html&gt;</string></property></widget></item>
+          <item row="1" column="1"><widget class="QLineEdit" name="hEdit"></widget></item>
+          <item row="1" column="2"><widget class="QLabel" name="u_h"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>m</string></property></widget></item>
+
+          <item row="2" column="0"><widget class="QLabel" name="l_mu"><property name="text"><string>&lt;html&gt;粘度 (μ)&lt;/html&gt;</string></property></widget></item>
+          <item row="2" column="1"><widget class="QLineEdit" name="muEdit"></widget></item>
+          <item row="2" column="2"><widget class="QLabel" name="u_mu"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>mPa·s</string></property></widget></item>
+
+          <item row="3" column="0"><widget class="QLabel" name="l_B"><property name="text"><string>&lt;html&gt;体积系数 (B)&lt;/html&gt;</string></property></widget></item>
+          <item row="3" column="1"><widget class="QLineEdit" name="BEdit"></widget></item>
+          <item row="3" column="2"><widget class="QLabel" name="u_B"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
+
+          <item row="4" column="0"><widget class="QLabel" name="l_Ct"><property name="text"><string>&lt;html&gt;综合压缩系数 (C&lt;sub&gt;t&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="4" column="1"><widget class="QLineEdit" name="CtEdit"></widget></item>
+          <item row="4" column="2"><widget class="QLabel" name="u_Ct"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>MPa⁻¹</string></property></widget></item>
+
+          <item row="5" column="0"><widget class="QLabel" name="l_q"><property name="text"><string>&lt;html&gt;生产配产 (q)&lt;/html&gt;</string></property></widget></item>
+          <item row="5" column="1"><widget class="QLineEdit" name="qEdit"></widget></item>
+          <item row="5" column="2"><widget class="QLabel" name="u_q"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>m³/d</string></property></widget></item>
+
+          <item row="6" column="0"><widget class="QLabel" name="l_t"><property name="text"><string>&lt;html&gt;测试时间 (t)&lt;/html&gt;</string></property></widget></item>
+          <item row="6" column="1"><widget class="QLineEdit" name="tEdit"></widget></item>
+          <item row="6" column="2"><widget class="QLabel" name="u_t"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>h</string></property></widget></item>
+         </layout>
+        </widget>
+       </item>
+
        <item>
         <widget class="QGroupBox" name="parameterGroup">
          <property name="title">
           <string>复合模型参数</string>
          </property>
          <layout class="QGridLayout" name="paramLayout">
+          <item row="0" column="0"><widget class="QLabel" name="l_kf"><property name="text"><string>&lt;html&gt;内区渗透率 (k&lt;sub&gt;f&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="0" column="1"><widget class="QLineEdit" name="kfEdit"></widget></item>
+          <item row="0" column="2"><widget class="QLabel" name="u_kf"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>mD</string></property></widget></item>
 
-          <item row="0" column="0"><widget class="QLabel" name="l_kf"><property name="text"><string>内区渗透率 (kf):</string></property></widget></item>
-          <item row="0" column="1"><widget class="QDoubleSpinBox" name="kfSpinBox"><property name="decimals"><number>6</number></property><property name="maximum"><double>10000.0</double></property><property name="value"><double>0.001</double></property></widget></item>
+          <item row="1" column="0"><widget class="QLabel" name="l_km"><property name="text"><string>&lt;html&gt;外区渗透率 (k&lt;sub&gt;m&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="1" column="1"><widget class="QLineEdit" name="kmEdit"></widget></item>
+          <item row="1" column="2"><widget class="QLabel" name="u_km"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>mD</string></property></widget></item>
 
-          <item row="1" column="0"><widget class="QLabel" name="l_km"><property name="text"><string>外区渗透率 (km):</string></property></widget></item>
-          <item row="1" column="1"><widget class="QDoubleSpinBox" name="kmSpinBox"><property name="decimals"><number>6</number></property><property name="maximum"><double>10000.0</double></property><property name="value"><double>0.0001</double></property></widget></item>
+          <item row="2" column="0"><widget class="QLabel" name="l_L"><property name="text"><string>&lt;html&gt;参考长度 (L)&lt;/html&gt;</string></property></widget></item>
+          <item row="2" column="1"><widget class="QLineEdit" name="LEdit"></widget></item>
+          <item row="2" column="2"><widget class="QLabel" name="u_L"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>m</string></property></widget></item>
 
-          <item row="2" column="0"><widget class="QLabel" name="l_L"><property name="text"><string>参考长度 (L):</string></property></widget></item>
-          <item row="2" column="1"><widget class="QDoubleSpinBox" name="LSpinBox"><property name="maximum"><double>10000.0</double></property><property name="value"><double>1000.0</double></property></widget></item>
+          <item row="3" column="0"><widget class="QLabel" name="l_Lf"><property name="text"><string>&lt;html&gt;裂缝半长 (L&lt;sub&gt;f&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="3" column="1"><widget class="QLineEdit" name="LfEdit"></widget></item>
+          <item row="3" column="2"><widget class="QLabel" name="u_Lf"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string>m</string></property></widget></item>
 
-          <item row="3" column="0"><widget class="QLabel" name="l_Lf"><property name="text"><string>裂缝半长 (Lf):</string></property></widget></item>
-          <item row="3" column="1"><widget class="QDoubleSpinBox" name="LfSpinBox"><property name="maximum"><double>10000.0</double></property><property name="value"><double>100.0</double></property></widget></item>
+          <item row="4" column="0"><widget class="QLabel" name="l_LfD"><property name="text"><string>&lt;html&gt;无因次缝长 (L&lt;sub&gt;fD&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="4" column="1"><widget class="QLineEdit" name="LfDEdit">
+           <property name="readOnly"><bool>true</bool></property>
+           <property name="styleSheet"><string>background-color: #f0f0f0;</string></property>
+          </widget></item>
+          <item row="4" column="2"><widget class="QLabel" name="u_LfD"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
 
-          <item row="4" column="0"><widget class="QLabel" name="l_LfD"><property name="text"><string>无因次缝长 (LfD):</string></property></widget></item>
-          <item row="4" column="1"><widget class="QDoubleSpinBox" name="LfDSpinBox"><property name="maximum"><double>10.0</double></property><property name="value"><double>0.1</double></property></widget></item>
+          <item row="5" column="0"><widget class="QLabel" name="l_nf"><property name="text"><string>&lt;html&gt;裂缝条数 (n&lt;sub&gt;f&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="5" column="1"><widget class="QLineEdit" name="nfEdit"></widget></item>
+          <item row="5" column="2"><widget class="QLabel" name="u_nf"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
 
-          <item row="5" column="0"><widget class="QLabel" name="l_rmD"><property name="text"><string>复合半径 (rmD):</string></property></widget></item>
-          <item row="5" column="1"><widget class="QDoubleSpinBox" name="rmDSpinBox"><property name="maximum"><double>50.0</double></property><property name="value"><double>4.0</double></property></widget></item>
+          <item row="6" column="0"><widget class="QLabel" name="l_rmD"><property name="text"><string>&lt;html&gt;复合半径 (r&lt;sub&gt;mD&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="6" column="1"><widget class="QLineEdit" name="rmDEdit"></widget></item>
+          <item row="6" column="2"><widget class="QLabel" name="u_rmD"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
 
-          <item row="6" column="0"><widget class="QLabel" name="l_omga1"><property name="text"><string>内区储容比 (ω1):</string></property></widget></item>
-          <item row="6" column="1"><widget class="QDoubleSpinBox" name="omga1SpinBox"><property name="decimals"><number>4</number></property><property name="maximum"><double>1.0</double></property><property name="value"><double>0.4</double></property></widget></item>
+          <item row="7" column="0"><widget class="QLabel" name="l_omga1"><property name="text"><string>&lt;html&gt;内区储容比 (ω&lt;sub&gt;1&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="7" column="1"><widget class="QLineEdit" name="omga1Edit"></widget></item>
+          <item row="7" column="2"><widget class="QLabel" name="u_omga1"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
 
-          <item row="7" column="0"><widget class="QLabel" name="l_omga2"><property name="text"><string>外区储容比 (ω2):</string></property></widget></item>
-          <item row="7" column="1"><widget class="QDoubleSpinBox" name="omga2SpinBox"><property name="decimals"><number>4</number></property><property name="maximum"><double>1.0</double></property><property name="value"><double>0.08</double></property></widget></item>
+          <item row="8" column="0"><widget class="QLabel" name="l_omga2"><property name="text"><string>&lt;html&gt;外区储容比 (ω&lt;sub&gt;2&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="8" column="1"><widget class="QLineEdit" name="omga2Edit"></widget></item>
+          <item row="8" column="2"><widget class="QLabel" name="u_omga2"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
 
-          <item row="8" column="0"><widget class="QLabel" name="l_remda1"><property name="text"><string>窜流系数 (λ1):</string></property></widget></item>
-          <item row="8" column="1"><widget class="QDoubleSpinBox" name="remda1SpinBox"><property name="decimals"><number>6</number></property><property name="maximum"><double>1.0</double></property><property name="value"><double>0.001</double></property></widget></item>
+          <item row="9" column="0"><widget class="QLabel" name="l_remda1"><property name="text"><string>&lt;html&gt;窜流系数 (λ&lt;sub&gt;1&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="9" column="1"><widget class="QLineEdit" name="remda1Edit"></widget></item>
+          <item row="9" column="2"><widget class="QLabel" name="u_remda1"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
 
-          <item row="9" column="0"><widget class="QLabel" name="label_cd"><property name="text"><string>井筒存储 (cD):</string></property></widget></item>
-          <item row="9" column="1"><widget class="QDoubleSpinBox" name="cDSpinBox"><property name="decimals"><number>8</number></property><property name="maximum"><double>1.0</double></property><property name="value"><double>0</double></property></widget></item>
+          <item row="10" column="0"><widget class="QLabel" name="label_cd"><property name="text"><string>&lt;html&gt;井筒存储 (C&lt;sub&gt;D&lt;/sub&gt;)&lt;/html&gt;</string></property></widget></item>
+          <item row="10" column="1"><widget class="QLineEdit" name="cDEdit"></widget></item>
+          <item row="10" column="2"><widget class="QLabel" name="u_cd"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
 
-          <item row="10" column="0"><widget class="QLabel" name="label_s"><property name="text"><string>表皮系数 (S):</string></property></widget></item>
-          <item row="10" column="1"><widget class="QDoubleSpinBox" name="sSpinBox"><property name="minimum"><double>-5.0</double></property><property name="maximum"><double>50.0</double></property><property name="value"><double>0</double></property></widget></item>
-
+          <item row="11" column="0"><widget class="QLabel" name="label_s"><property name="text"><string>&lt;html&gt;表皮系数 (S)&lt;/html&gt;</string></property></widget></item>
+          <item row="11" column="1"><widget class="QLineEdit" name="sEdit"></widget></item>
+          <item row="11" column="2"><widget class="QLabel" name="u_s"><property name="minimumSize"><size><width>150</width><height>0</height></size></property><property name="text"><string></string></property></widget></item>
          </layout>
         </widget>
        </item>
@@ -102,6 +137,7 @@
           </layout></item>
           <item><layout class="QHBoxLayout" name="buttonLayout2">
             <item><widget class="QPushButton" name="exportButton"><property name="enabled"><bool>false</bool></property><property name="text"><string>导出结果</string></property><property name="styleSheet"><string>QPushButton { background-color: #FF9800; color: white; font-weight: bold; padding: 8px; }</string></property></widget></item>
+            <item><widget class="QPushButton" name="chartSettingsButton"><property name="text"><string>图表设置</string></property><property name="styleSheet"><string>QPushButton { background-color: #607D8B; color: white; font-weight: bold; padding: 8px; }</string></property></widget></item>
           </layout></item>
           <item><layout class="QHBoxLayout" name="viewLayout">
             <item><widget class="QPushButton" name="resetViewButton"><property name="enabled"><bool>false</bool></property><property name="text"><string>重置视图</string></property><property name="styleSheet"><string>QPushButton { background-color: #9C27B0; color: white; font-weight: bold; padding: 6px; }</string></property></widget></item>
@@ -115,9 +151,18 @@
      </widget>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex"><number>0</number></property>
-      <widget class="QWidget" name="chartTab"><attribute name="title"><string>压力分析图表</string></attribute></widget>
+      <widget class="QWidget" name="chartTab">
+       <attribute name="title"><string>压力分析图表</string></attribute>
+       <layout class="QVBoxLayout" name="chartTabLayout">
+        <property name="leftMargin"><number>0</number></property>
+        <property name="topMargin"><number>0</number></property>
+        <property name="rightMargin"><number>0</number></property>
+        <property name="bottomMargin"><number>0</number></property>
+        <item><widget class="QWidget" name="chartContainer" native="true"/></item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="resultTab"><attribute name="title"><string>计算结果</string></attribute>
-       <layout class="QVBoxLayout" name="resultLayout">
+        <layout class="QVBoxLayout" name="resultLayout">
         <item><widget class="QTextEdit" name="resultTextEdit"><property name="readOnly"><bool>true</bool></property></widget></item>
        </layout>
       </widget>

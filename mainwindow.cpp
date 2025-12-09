@@ -19,6 +19,10 @@
 #include <cmath>
 #include <QStatusBar>
 
+/**
+ * @brief MainWindow 构造函数
+ * 初始化主窗口界面、设置标题、最小宽度，并调用初始化流程。
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -33,14 +37,22 @@ MainWindow::MainWindow(QWidget *parent)
     init();
 }
 
+/**
+ * @brief 析构函数
+ * 释放 UI 资源
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+/**
+ * @brief 主初始化函数
+ * 负责构建导航栏、初始化子页面堆栈、创建各个业务模块并建立信号连接。
+ */
 void MainWindow::init()
 {
-    // 初始化导航栏按钮
+    // --- 1. 初始化导航栏按钮 ---
     for(int i = 0 ; i<6;i++)  // 6个按钮（项目、数据、模型、图表、拟合、设置）
     {
         NavBtn* btn = new NavBtn(ui->widgetNav);
@@ -49,10 +61,11 @@ void MainWindow::init()
         // 设置字体颜色为黑色
         btn->setStyleSheet("color: black;");
 
+        // 根据索引配置图标和文字
         switch (i) {
         case 0:
             btn->setPicName("border-image: url(:/new/prefix1/Resource/X0.png);",tr("项目"));
-            btn->setClickedStyle();
+            btn->setClickedStyle(); // 默认选中第一个
             ui->stackedWidget->setCurrentIndex(0);
             break;
         case 1:
@@ -75,8 +88,11 @@ void MainWindow::init()
         }
         m_NavBtnMap.insert(btn->getName(),btn);
         ui->verticalLayoutNav->addWidget(btn);
+
+        // 连接按钮点击信号，处理页面切换和按钮样式互斥
         connect(btn,&NavBtn::sigClicked,[=](QString name)
                 {
+                    // 重置所有按钮样式
                     QMap<QString,NavBtn*>::Iterator item = m_NavBtnMap.begin();
                     while (item != m_NavBtnMap.end()) {
                         if(item.key() != name)
@@ -85,6 +101,7 @@ void MainWindow::init()
                         }
                         item++;
                     }
+                    // 切换 StackedWidget 页面
                     int targetIndex = m_NavBtnMap.value(name)->getIndex();
                     ui->stackedWidget->setCurrentIndex(targetIndex);
 
@@ -98,11 +115,11 @@ void MainWindow::init()
                 });
     }
 
-    // 添加垂直弹性空间，防止按钮拉伸
+    // 添加垂直弹性空间，防止按钮被拉伸变形
     QSpacerItem* verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
     ui->verticalLayoutNav->addSpacerItem(verticalSpacer);
 
-    // 初始化时间显示
+    // --- 2. 初始化时间显示 ---
     ui->labelTime->setText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss").replace(" ","\n"));
     connect(&m_timer,&QTimer::timeout,[=]
             {
@@ -111,31 +128,33 @@ void MainWindow::init()
             });
     m_timer.start(1000);
 
-    // 1. 初始化监控界面
+    // --- 3. 初始化各业务子模块 ---
+
+    // 3.1 监控界面
     m_MonitorWidget = new MonitorWidget(ui->pageMonitor);
     ui->verticalLayoutMonitor->addWidget(m_MonitorWidget);
     connect(m_MonitorWidget, &MonitorWidget::newProjectCreated, this, &MainWindow::onProjectCreated);
     connect(m_MonitorWidget, &MonitorWidget::fileLoaded, this, &MainWindow::onFileLoaded);
 
-    // 2. 创建数据编辑器并将其添加到数据页面
+    // 3.2 数据编辑器
     m_DataEditorWidget = new DataEditorWidget(ui->pageHand);
     ui->verticalLayoutHandle->addWidget(m_DataEditorWidget);
     connect(m_DataEditorWidget, &DataEditorWidget::fileChanged, this, &MainWindow::onFileLoaded);
     connect(m_DataEditorWidget, &DataEditorWidget::dataChanged, this, &MainWindow::onDataEditorDataChanged);
 
-    // 3. 创建并初始化模型管理器
+    // 3.3 模型管理器 (无 UI，挂载在参数页)
     m_ModelManager = new ModelManager(this);
     m_ModelManager->initializeModels(ui->pageParamter);
     connect(m_ModelManager, &ModelManager::calculationCompleted,
             this, &MainWindow::onModelCalculationCompleted);
 
-    // 4. 创建并初始化绘图界面
+    // 3.4 绘图界面
     m_PlottingWidget = new PlottingWidget(ui->pageData);
     ui->verticalLayout_2->addWidget(m_PlottingWidget);
     connect(m_PlottingWidget, &PlottingWidget::analysisCompleted,
             this, &MainWindow::onPlotAnalysisCompleted);
 
-    // 5. 创建并初始化拟合界面
+    // 3.5 拟合界面
     if (ui->pageFitting && ui->verticalLayoutFitting) {
         m_FittingWidget = new FittingWidget(ui->pageFitting);
         ui->verticalLayoutFitting->addWidget(m_FittingWidget);
@@ -150,7 +169,7 @@ void MainWindow::init()
         m_FittingWidget = nullptr;
     }
 
-    // 6. 创建并初始化设置界面
+    // 3.6 设置界面
     m_SettingsWidget = new SettingsWidget(ui->pageAlarm);
     ui->verticalLayout_3->addWidget(m_SettingsWidget);
 
@@ -161,7 +180,7 @@ void MainWindow::init()
     connect(m_SettingsWidget, &SettingsWidget::backupSettingsChanged,
             this, &MainWindow::onBackupSettingsChanged);
 
-    // 调用各子模块的初始化函数
+    // 调用各子模块的额外初始化逻辑
     initMonitorForm();
     initDataEditorForm();
     initModelForm();
@@ -169,37 +188,28 @@ void MainWindow::init()
     initFittingForm();
 }
 
-void MainWindow::initMonitorForm()
-{
-    qDebug() << "初始化监控界面";
-}
+// 以下为空实现的初始化占位函数，预留给未来扩展
+void MainWindow::initMonitorForm() { qDebug() << "初始化监控界面"; }
+void MainWindow::initDataEditorForm() { qDebug() << "初始化数据编辑器界面"; }
+void MainWindow::initModelForm() { if (m_ModelManager) qDebug() << "模型界面初始化完成"; }
+void MainWindow::initPlottingForm() { qDebug() << "初始化绘图界面"; }
 
-void MainWindow::initDataEditorForm()
-{
-    qDebug() << "初始化数据编辑器界面";
-}
-
-void MainWindow::initModelForm()
-{
-    if (m_ModelManager) {
-        qDebug() << "模型界面初始化完成";
-    }
-}
-
-void MainWindow::initPlottingForm()
-{
-    qDebug() << "初始化绘图界面";
-}
-
+/**
+ * @brief 初始化拟合界面依赖
+ * 将 ModelManager 指针注入 FittingWidget，使其能调用核心计算算法
+ */
 void MainWindow::initFittingForm()
 {
-    // 注入 ModelManager 依赖，使 FittingWidget 能调用模型计算
     if (m_FittingWidget && m_ModelManager) {
         m_FittingWidget->setModelManager(m_ModelManager);
         qDebug() << "拟合界面初始化完成，依赖已注入";
     }
 }
 
+/**
+ * @brief 处理新项目创建信号
+ * 切换到模型页面并更新导航状态
+ */
 void MainWindow::onProjectCreated()
 {
     qDebug() << "处理新项目创建";
@@ -208,6 +218,10 @@ void MainWindow::onProjectCreated()
     updateNavigationState();
 }
 
+/**
+ * @brief 处理文件加载信号
+ * 切换到数据页面，并通知数据编辑器加载内容
+ */
 void MainWindow::onFileLoaded(const QString& filePath, const QString& fileType)
 {
     qDebug() << "MainWindow收到文件加载/更换通知：" << filePath;
@@ -264,9 +278,13 @@ void MainWindow::onModelCalculationCompleted(const QString &analysisType, const 
 }
 
 // -------------------------------------------------------------------------
-// 拟合模块数据传递逻辑 (关键修改部分)
+// 拟合模块数据传递逻辑
 // -------------------------------------------------------------------------
 
+/**
+ * @brief 将数据从编辑器传递到拟合模块
+ * 包括：读取原始数据、计算压差、计算 Bourdet 导数
+ */
 void MainWindow::transferDataToFitting()
 {
     if (!m_FittingWidget || !m_DataEditorWidget) return;
@@ -275,7 +293,7 @@ void MainWindow::transferDataToFitting()
 
     QStandardItemModel* model = m_DataEditorWidget->getDataModel();
 
-    // [修改] 如果没有数据，传递空向量以清空图表，绝不生成演示数据
+    // 如果没有数据，传递空向量以清空图表
     if (!model || model->rowCount() == 0) {
         m_FittingWidget->setObservedData(QVector<double>(), QVector<double>(), QVector<double>());
         return;
@@ -283,7 +301,7 @@ void MainWindow::transferDataToFitting()
 
     QVector<double> tVec, pVec, dVec;
     double p_initial = 0.0;
-    bool p_init_found = false;
+    // bool p_init_found = false; // 已删除，避免未使用变量警告
 
     // 1. 扫描初始压力 (P0)
     // 假设第2列(index 1)是压力列
@@ -293,7 +311,7 @@ void MainWindow::transferDataToFitting()
             double p = idx.data().toDouble();
             if (std::abs(p) > 1e-6) { // 找到第一个非零压力作为初始压力
                 p_initial = p;
-                p_init_found = true;
+                // p_init_found = true;
                 break;
             }
         }
@@ -311,8 +329,7 @@ void MainWindow::transferDataToFitting()
         }
     }
 
-    // 3. 自动计算导数 (如果 DataEditor 没有提供)
-    // 假设 DataEditor 目前没有计算导数，我们在这里计算 Bourdet 导数
+    // 3. 自动计算导数 (Bourdet 算法)
     dVec.resize(tVec.size());
     if (tVec.size() > 2) {
         dVec[0] = 0;
@@ -427,7 +444,7 @@ void MainWindow::transferDataFromEditorToPlotting()
         m_PlottingWidget->setTableDataFromModel(model, fileName);
         m_hasValidData = true;
     } else {
-        // 如果是绘图界面，暂保留演示数据以展示功能，若需要也可删除
+        // 如果是绘图界面，暂保留演示数据以展示功能
         WellTestData wellData = createDemoWellTestData();
         m_PlottingWidget->setWellTestData(wellData);
         m_hasValidData = true;

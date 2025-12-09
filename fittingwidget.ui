@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1100</width>
-    <height>700</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,6 @@
          </property>
         </widget>
        </item>
-
        <item>
         <widget class="Line" name="line">
          <property name="orientation">
@@ -46,11 +45,10 @@
          </property>
         </widget>
        </item>
-
        <item>
         <widget class="QTableWidget" name="tableParams">
          <property name="columnCount">
-          <number>4</number>
+          <number>6</number>
          </property>
          <attribute name="horizontalHeaderStretchLastSection">
           <bool>true</bool>
@@ -62,37 +60,124 @@
          </column>
          <column>
           <property name="text">
-           <string>初始值</string>
+           <string>拟合值</string>
+          </property>
+          <property name="toolTip">
+           <string>当前参数的数值</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>参与拟合</string>
+           <string>拟合</string>
+          </property>
+          <property name="toolTip">
+           <string>勾选以参与自动拟合</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>参数范围</string>
+           <string>下限</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>上限</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>单位</string>
+          </property>
+          <property name="toolTip">
+           <string>参数单位</string>
           </property>
          </column>
         </widget>
        </item>
-
+       <item>
+        <widget class="QGroupBox" name="grpWeight">
+         <property name="title">
+          <string>拟合权重 (压力 vs 导数)</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_Weight">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_WP">
+            <property name="text">
+             <string>压力</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: red; font-weight: bold;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="sliderWeight">
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>50</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_WD">
+            <property name="text">
+             <string>导数</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: blue; font-weight: bold;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spinWeight">
+            <property name="toolTip">
+             <string>压力权重值 (0~1)，导数权重自动为 (1-值)</string>
+            </property>
+            <property name="maximum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.050000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.500000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_Status">
          <item>
           <widget class="QLabel" name="label_Error">
-           <property name="text">
-            <string>误差: N/A</string>
-           </property>
            <property name="styleSheet">
             <string notr="true">font-weight: bold; color: darkred;</string>
+           </property>
+           <property name="text">
+            <string>误差: N/A</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
-
        <item>
         <widget class="QProgressBar" name="progressBar">
          <property name="value">
@@ -103,37 +188,37 @@
          </property>
         </widget>
        </item>
-
        <item>
         <layout class="QGridLayout" name="gridLayout_Btns">
-         <item row="0" column="0" colspan="2">
+         <item row="0" column="0">
           <widget class="QPushButton" name="btnLoadData">
            <property name="text">
-            <string>1. 加载实测数据</string>
+            <string>1. 加载数据</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="2">
+         <item row="0" column="1">
           <widget class="QPushButton" name="btnImportModel">
+           <property name="toolTip">
+            <string>使用表格参数生成曲线</string>
+           </property>
            <property name="text">
             <string>2. 导入模型</string>
            </property>
-           <property name="toolTip">
-            <string>使用表格中的参数生成并绘制理论曲线</string>
-           </property>
           </widget>
          </item>
-         <item row="2" column="0">
+
+         <item row="1" column="0">
           <widget class="QPushButton" name="btnRunFit">
            <property name="styleSheet">
-            <string notr="true">background-color: #4CAF50; color: white; font-weight: bold; padding: 5px;</string>
+            <string notr="true">background-color: #4CAF50; color: white; font-weight: bold;</string>
            </property>
            <property name="text">
             <string>3. 自动拟合</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item row="1" column="1">
           <widget class="QPushButton" name="btnStop">
            <property name="styleSheet">
             <string notr="true">background-color: #F44336; color: white;</string>
@@ -143,18 +228,44 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="0" colspan="2">
-          <widget class="QPushButton" name="btnApplyResult">
+
+         <item row="2" column="0">
+          <widget class="QPushButton" name="btnExportData">
            <property name="text">
-            <string>应用结果</string>
+            <string>导出数据</string>
            </property>
           </widget>
          </item>
-        </layout>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="btnExportChart">
+           <property name="text">
+            <string>导出图表</string>
+           </property>
+          </widget>
+         </item>
+
+         <item row="3" column="0">
+          <widget class="QPushButton" name="btnChartSettings">
+           <property name="text">
+            <string>图表设置...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="btnResetView">
+           <property name="styleSheet">
+            <string notr="true">background-color: #9C27B0; color: white;</string>
+           </property>
+           <property name="text">
+            <string>重置视图</string>
+           </property>
+          </widget>
+         </item>
+
+         </layout>
        </item>
       </layout>
      </widget>
-
      <widget class="QWidget" name="plotContainer" native="true">
       <layout class="QVBoxLayout" name="verticalLayout_Plot">
        <property name="leftMargin">
